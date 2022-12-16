@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    ports:
+      - 3306:3306
+      - 33060:33060
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=my_catalog_db
+    networks:
+      - inatel
+
+  mycatalog:
+    image: my-catalog
+    container_name: my-catalog
+    ports:
+      - 8080:8080
+    environment:
+      - MYSQL_CONTAINER=mysql
+      - OMDB_URL=www.omdbapi.com/
+      - OMDB_KEY=a4c5178c
+      - SPRING_PROFILES_ACTIVE=prod
+      - MYCATALOG_CONTAINER=mycatalog
+    networks:
+      - inatel
+    depends_on:
+      - mysql
+
+networks:
+  inatel:
+    driver: bridge
