@@ -17,6 +17,6 @@ public class ShowForm {
     @NotEmpty
     private String title;
     @Min(0) @Max(10)
-    private int personalScore;
+    private double personalScore;
 
 }

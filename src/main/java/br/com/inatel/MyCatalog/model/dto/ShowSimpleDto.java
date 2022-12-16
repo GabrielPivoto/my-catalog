@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class ShowSimpleDto {
 
     private String title;
-    private int personalScore;
+    private int id;
+    private double personalScore;
 
 }

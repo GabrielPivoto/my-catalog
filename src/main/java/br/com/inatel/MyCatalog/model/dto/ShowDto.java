@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 public class ShowDto {
 
     private String title;
-    private int personalScore;
+    private int id;
+    private double personalScore;
     private String rated;
     private String released;
     private String genre;

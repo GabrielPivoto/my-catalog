@@ -22,7 +22,7 @@ public class TvShow {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull @Min(0) @Max(10)
-    private int personalScore;
+    private double personalScore;
     @NotNull
     private String title;
     @NotNull
