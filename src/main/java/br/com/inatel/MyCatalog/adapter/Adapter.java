@@ -19,14 +19,16 @@ public class Adapter {
 
     public Show getShowByTitle(String title){
 
-        Show show = WebClient.builder().baseUrl("http://" + url).build()
+        return WebClient.builder().baseUrl("http://" + url).build()
                 .get()
-                .uri("?apikey=" + key + "&t=" + title)
+                .uri(uriBuilder -> uriBuilder
+                        .queryParam("apikey", key)
+                        .queryParam("t", title)
+                        .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(Show.class).block();
 
-        return show;
     }
 
 }
