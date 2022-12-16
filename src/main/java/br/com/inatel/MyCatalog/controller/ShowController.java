@@ -1,6 +1,8 @@
 package br.com.inatel.MyCatalog.controller;
 
+import br.com.inatel.MyCatalog.mapper.Mapper;
 import br.com.inatel.MyCatalog.model.dto.ShowDto;
+import br.com.inatel.MyCatalog.model.dto.ShowSimpleDto;
 import br.com.inatel.MyCatalog.model.form.ShowForm;
 import br.com.inatel.MyCatalog.service.ShowService;
 import jakarta.validation.Valid;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,30 +24,25 @@ public class ShowController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ShowDto> addNewShow(@RequestBody @Valid ShowForm showDto){
-        return showService.addNewShow(showDto);
+    public ResponseEntity<ShowDto> addNewShow(@RequestBody @Valid ShowForm showForm){
+        return ResponseEntity.created(null).body(showService.addNewShow(showForm));
     }
-
-//    @GetMapping("{type}/details")
-//    public ResponseEntity<List<ShowDto>> findAllShowsWithDetails(@PathVariable String type){
-//        return showService.findAllShowsWithDetails(type);
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity<?> findShowByTitle(@RequestParam(required = false) Optional<String> title){
-//        return showService.findShowByTitle(title);
-//    }
 
     @GetMapping
-    public ResponseEntity<?> findShows(
-            @RequestParam(required = false) Optional<String> title,
-            @RequestParam(required = false) Optional<String> type){
-        return showService.findShows(title,type);
+    public ResponseEntity<List<ShowDto>> findShows(
+            @RequestParam(required = false) Optional<String> type) {
+        return ResponseEntity.ok().body(showService.findShows(type));
     }
 
-    @DeleteMapping("/{title}")
-    public ResponseEntity<ShowDto> deleteShow(@PathVariable String title){
-        return showService.deleteShow(title);
+    @GetMapping("/{id}")
+    public ResponseEntity<ShowDto> findShow(@PathVariable int id) {
+        return ResponseEntity.ok().body(showService.findShow(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ShowDto> deleteShow(@PathVariable int id){
+        showService.deleteShow(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
