@@ -3,6 +3,8 @@ package br.com.inatel.MyCatalog.mapper;
 import br.com.inatel.MyCatalog.model.dto.ShowDto;
 import br.com.inatel.MyCatalog.model.dto.ShowSimpleDto;
 import br.com.inatel.MyCatalog.model.entity.TvShow;
+import br.com.inatel.MyCatalog.model.form.ShowForm;
+import br.com.inatel.MyCatalog.model.rest.Show;
 
 public class Mapper {
 
@@ -31,4 +33,19 @@ public class Mapper {
                 .build();
     }
 
+    public static ShowDto convertRestToDto(Show show, ShowForm showForm) {
+        return ShowDto.builder()
+                .actors(show.getActors())
+                .personalScore(showForm.getPersonalScore())
+                .director(show.getDirector())
+                .title(show.getTitle())
+                .genre(show.getGenre())
+                .imdbRating(show.getImdbRating())
+                .plot(show.getPlot())
+                .rated(show.getRated())
+                .released(show.getReleased())
+                .type(show.getType())
+                .writer(show.getWriter())
+                .build();
+    }
 }
