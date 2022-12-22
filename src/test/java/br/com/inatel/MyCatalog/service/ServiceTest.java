@@ -24,7 +24,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
@@ -290,10 +290,24 @@ public class ServiceTest {
                 .hasMessageContaining("The id 8 could not be found. Try another one.");
     }
 
+    @Test
     public void givenValidId_whenDeleteShowById_thenTheShowMustBeDeleted(){
-        when(showRepository.findById(1)).thenReturn(Optional.of(validTvShow1)/
+        when(showRepository.findById(1)).thenReturn(Optional.of(validTvShow1));
 
+        showService.deleteShow(1);
 
+        verify(showRepository).deleteById(1);
+    }
+
+    @Test
+    public void givenInvalidId_whenDeleteShowById_theShouldTrhowShowNotFoundException(){
+        when(showRepository.findById(8)).thenReturn(Optional.empty());
+
+        Throwable throwable = catchThrowable(() -> showService.deleteShow(8));
+
+        assertThat(throwable)
+                .isInstanceOf(ShowNotFoundException.class)
+                .hasMessageContaining("The id 8 could not be found. Try another one.");
     }
 
 }
