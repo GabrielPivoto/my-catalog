@@ -24,7 +24,7 @@ public class ShowService {
 
     public ShowDto addNewShow(ShowForm showForm){
         Show show = adapter.getShowByTitle(showForm.getTitle());
-        Optional<TvShow> optional = showRepository.findByTitle(showForm.getTitle());
+        Optional<TvShow> optional = showRepository.findByTitle(show.getTitle());
         if(show.getTitle() == null)
             throw new ShowNotFoundException("The show " + showForm.getTitle() + " could not be found." +
                     " Check if the name was written correctly.");
@@ -32,8 +32,7 @@ public class ShowService {
             throw new ShowAlreadyRegisteredException("The show " + optional.get().getTitle() +
                     " is already registered. Feel free to add another one.");
         else{
-            return Mapper.convertEntityToDto(showRepository
-                    .save(TvShow.builder()
+            showRepository.save(TvShow.builder()
                     .personalScore(showForm.getPersonalScore())
                     .title(show.getTitle())
                     .rated(show.getRated())
@@ -44,7 +43,8 @@ public class ShowService {
                     .actors(show.getActors())
                     .plot(show.getPlot())
                     .imdbRating(show.getImdbRating())
-                    .type(show.getType()).build()));
+                    .type(show.getType()).build());
+            return Mapper.convertRestToDto(show,showForm);
         }
     }
 
@@ -69,7 +69,7 @@ public class ShowService {
     public void deleteShow(int id){
         Optional<TvShow> optional = showRepository.findById(id);
         if(optional.isPresent())
-            showRepository.delete(optional.get());
+            showRepository.deleteById(id);
         else
             throw new ShowNotFoundException("The id " + id + " could not be found." +
                     " Try another one.");
