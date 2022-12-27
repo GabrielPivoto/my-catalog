@@ -8,14 +8,20 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * This class configures the Swagger.
+ *
+ * @author Gabriel Pivoto
+ * @version JDK 1.7
+ * @since 1.0
+ */
 @Configuration
 @ConditionalOnProperty(name = "springdoc.swagger-ui.enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerConfiguration {
 
     @Bean
     public OpenAPI api() {
-        return new OpenAPI()
-                .info(info());
+        return new OpenAPI().info(info());
     }
 
     private Info info() {
@@ -29,7 +35,10 @@ public class SwaggerConfiguration {
                 .title(title)
                 .description(description)
                 .version(version)
-                .contact(new Contact().name(contactName).email(contactEmail).url(contactUrl));
+                .contact(new Contact()
+                        .name(contactName)
+                        .email(contactEmail)
+                        .url(contactUrl));
     }
 
 }
