@@ -7,6 +7,13 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+/**
+ * This class consumes the external API.
+ *
+ * @author Gabriel Pivoto
+ * @version JDK 1.7
+ * @since 1.0
+ */
 @Service
 @Slf4j
 public class Adapter {
@@ -17,7 +24,13 @@ public class Adapter {
     @Value("${omdb.api.key}")
     private String key;
 
-    public Show getShowByTitle(String title){
+    /**
+     * Given the title of a show, this method returns a Show instance with all its information.
+     *
+     * @param title - the title of the show
+     * @return a Show instance with the show's information
+     */
+    public Show getShowByTitle(String title) {
 
         return WebClient.builder().baseUrl("http://" + url).build()
                 .get()
