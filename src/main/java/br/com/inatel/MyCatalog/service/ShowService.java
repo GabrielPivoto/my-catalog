@@ -5,7 +5,6 @@ import br.com.inatel.MyCatalog.exception.ShowAlreadyRegisteredException;
 import br.com.inatel.MyCatalog.exception.ShowNotFoundException;
 import br.com.inatel.MyCatalog.mapper.Mapper;
 import br.com.inatel.MyCatalog.model.dto.ShowDto;
-import br.com.inatel.MyCatalog.model.dto.ShowSimpleDto;
 import br.com.inatel.MyCatalog.model.entity.TvShow;
 import br.com.inatel.MyCatalog.model.form.ShowForm;
 import br.com.inatel.MyCatalog.model.rest.Show;
@@ -16,6 +15,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class. Business logic implemented here.
+ *
+ * @author Gabriel Pivoto
+ * @version JDK 1.7
+ * @since 1.0
+ */
 @Service
 @AllArgsConstructor
 public class ShowService {
@@ -23,16 +29,16 @@ public class ShowService {
     private ShowRepository showRepository;
     private Adapter adapter;
 
-    public ShowDto addNewShow(ShowForm showForm){
+    public ShowDto addNewShow(ShowForm showForm) {
         Show show = adapter.getShowByTitle(showForm.getTitle());
         Optional<TvShow> optional = showRepository.findByTitle(show.getTitle());
-        if(show.getTitle() == null)
+        if (show.getTitle() == null)
             throw new ShowNotFoundException("The show " + showForm.getTitle() + " could not be found." +
                     " Check if the name was correctly written.");
-        else if(optional.isPresent())
+        else if (optional.isPresent())
             throw new ShowAlreadyRegisteredException("The show " + optional.get().getTitle() +
                     " is already registered. Feel free to add another one.");
-        else{
+        else {
             TvShow tvShow = TvShow.builder()
                     .personalScore(showForm.getPersonalScore())
                     .title(show.getTitle())
@@ -51,9 +57,9 @@ public class ShowService {
         }
     }
 
-    public List<ShowDto> findShows(Optional<String> type){
+    public List<ShowDto> findShows(Optional<String> type) {
         List<TvShow> tvShows;
-        if(type.isPresent()){
+        if (type.isPresent()) {
             tvShows = showRepository.findAllByType(type.get());
             return tvShows.stream().map(Mapper::convertEntityToDto).toList();
         }
@@ -61,17 +67,17 @@ public class ShowService {
         return tvShows.stream().map(Mapper::convertEntityToDto).toList();
     }
 
-    public ShowDto findShow(int id){
+    public ShowDto findShow(int id) {
         Optional<TvShow> optional = showRepository.findById(id);
-        if(optional.isEmpty())
+        if (optional.isEmpty())
             throw new ShowNotFoundException("The id " + id + " could not be found." +
                     " Try another one.");
         return Mapper.convertEntityToDto(optional.get());
     }
 
-    public ShowDto updateShow(ShowForm showForm){
+    public ShowDto updateShow(ShowForm showForm) {
         Optional<TvShow> optional = showRepository.findByTitle(showForm.getTitle());
-        if(optional.isEmpty())
+        if (optional.isEmpty())
             throw new ShowNotFoundException("The show " + showForm.getTitle() + " could not be found. " +
                     "Check if the name was correctly written.");
         TvShow tvShow = optional.get();
@@ -79,9 +85,9 @@ public class ShowService {
         return Mapper.convertEntityToDto(showRepository.save(tvShow));
     }
 
-    public void deleteShow(int id){
+    public void deleteShow(int id) {
         Optional<TvShow> optional = showRepository.findById(id);
-        if(optional.isPresent())
+        if (optional.isPresent())
             showRepository.deleteById(id);
         else
             throw new ShowNotFoundException("The id " + id + " could not be found." +
