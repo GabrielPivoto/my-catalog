@@ -13,6 +13,13 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Entity that will be saved in the database.
+ *
+ * @author Gabriel Pivoto
+ * @version JDK 1.7
+ * @since 1.0
+ */
 @Entity
 @Data
 @AllArgsConstructor
@@ -20,9 +27,12 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class TvShow {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotNull @Min(0) @Max(10)
+    @NotNull
+    @Min(0)
+    @Max(10)
     private double personalScore;
     @NotNull
     private String title;

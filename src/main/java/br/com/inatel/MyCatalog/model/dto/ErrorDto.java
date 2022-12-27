@@ -4,6 +4,13 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
+/**
+ * Dto shown when an exception is handled.
+ *
+ * @author Gabriel Pivoto
+ * @version JDK 1.7
+ * @since 1.0
+ */
 @Data
 @Builder
 public class ErrorDto {
