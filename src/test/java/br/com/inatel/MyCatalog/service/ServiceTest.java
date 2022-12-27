@@ -28,6 +28,13 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Service tests
+ *
+ * @author Gabriel Pivoto
+ * @version JDK 1.7
+ * @since 1.0
+ */
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
 public class ServiceTest {
@@ -299,7 +306,7 @@ public class ServiceTest {
     }
 
     @Test
-    public void givenValidId_whenDeleteShowById_thenTheShowMustBeDeleted(){
+    public void givenValidId_whenDeleteShowById_thenTheShowMustBeDeleted() {
         when(showRepository.findById(1)).thenReturn(Optional.of(validTvShow1));
 
         showService.deleteShow(1);
@@ -308,7 +315,7 @@ public class ServiceTest {
     }
 
     @Test
-    public void givenInvalidId_whenDeleteShowById_theShouldTrhowShowNotFoundException(){
+    public void givenInvalidId_whenDeleteShowById_theShouldTrhowShowNotFoundException() {
         when(showRepository.findById(8)).thenReturn(Optional.empty());
 
         Throwable throwable = catchThrowable(() -> showService.deleteShow(8));
@@ -319,21 +326,21 @@ public class ServiceTest {
     }
 
     @Test
-    public void givenValidTitle_whenPatchShow_shouldUptadeTheShow(){
+    public void givenValidTitle_whenPatchShow_shouldUptadeTheShow() {
         when(showRepository.findById(1)).thenReturn(Optional.of(validTvShow1));
         when(showRepository.findByTitle(validTitle1)).thenReturn(Optional.of(validTvShow1));
         when(showRepository.save(validTvShow1)).thenReturn(validTvShow1);
 
         ShowDto showBefore = showService.findShow(1);
-        assertEquals(9.7,showBefore.getPersonalScore());
+        assertEquals(9.7, showBefore.getPersonalScore());
 
         showService.updateShow(showForm1);
         ShowDto showAfter = showService.findShow(1);
-        assertEquals(10,showAfter.getPersonalScore());
+        assertEquals(10, showAfter.getPersonalScore());
     }
 
     @Test
-    public void givenInvalidTitle_whenPatchShow_shouldThrowShowNotFoundException(){
+    public void givenInvalidTitle_whenPatchShow_shouldThrowShowNotFoundException() {
         when(showRepository.findByTitle(validTitle1)).thenReturn(Optional.empty());
 
         Throwable throwable = catchThrowable(() -> showService.updateShow(showForm1));

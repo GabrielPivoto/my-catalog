@@ -32,6 +32,13 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
+/**
+ * Controller tests
+ *
+ * @author Gabriel Pivoto
+ * @version JDK 1.7
+ * @since 1.0
+ */
 @WebMvcTest(ShowController.class)
 public class ControllerTest {
 
@@ -67,7 +74,7 @@ public class ControllerTest {
     private String invalidTitle;
 
     @BeforeEach
-    public void init(){
+    public void init() {
 
         JacksonTester.initFields(this, new ObjectMapper());
 
@@ -142,7 +149,7 @@ public class ControllerTest {
                 .personalScore("a random score")
                 .build();
 
-       invalidShowForm2 = ShowForm.builder()
+        invalidShowForm2 = ShowForm.builder()
                 .title(invalidTitle)
                 .personalScore(12)
                 .build();
@@ -157,7 +164,7 @@ public class ControllerTest {
 
     @Test
     public void givenTypeNotProvided_whenGetAllShows_shouldReturnShowsListAndStatus200Ok() throws Exception {
-        when(showService.findShows(Optional.empty())).thenReturn(List.of(showDto1,showDto2,showDto3,showDto4));
+        when(showService.findShows(Optional.empty())).thenReturn(List.of(showDto1, showDto2, showDto3, showDto4));
 
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/show")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -170,7 +177,7 @@ public class ControllerTest {
 
     @Test
     public void givenTypeMovie_whenGetShowsByTypeMovie_shouldReturnOnlyMoviesAndStatus200Ok() throws Exception {
-        when(showService.findShows(Optional.of("movie"))).thenReturn(List.of(showDto3,showDto4));
+        when(showService.findShows(Optional.of("movie"))).thenReturn(List.of(showDto3, showDto4));
 
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/show?type=movie")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -183,7 +190,7 @@ public class ControllerTest {
 
     @Test
     public void givenTypeSeries_whenGetShowsByTypeSeries_shouldReturnOnlySeriesAndStatus200Ok() throws Exception {
-        when(showService.findShows(Optional.of("series"))).thenReturn(List.of(showDto1,showDto2));
+        when(showService.findShows(Optional.of("series"))).thenReturn(List.of(showDto1, showDto2));
 
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/show?type=series")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -271,7 +278,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void givenValidTitle_whenPatchShow_shouldReturn200OkAndUpdateTheShow() throws Exception{
+    public void givenValidTitle_whenPatchShow_shouldReturn200OkAndUpdateTheShow() throws Exception {
         when(showService.updateShow(showForm1)).thenReturn(showDtoUpdated);
 
         MockHttpServletResponse response = mockMvc.perform(
@@ -284,7 +291,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void givenInvalidTitle_whenPatchShow_shouldThrowShowNotFoundException() throws Exception{
+    public void givenInvalidTitle_whenPatchShow_shouldThrowShowNotFoundException() throws Exception {
         when(showService.updateShow(invalidShowForm1)).thenThrow(ShowNotFoundException.class);
 
         MockHttpServletResponse response = mockMvc.perform(
@@ -296,7 +303,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void givenValidId_whenDeleteShow_shouldDeleteTheShowAndReturnStatus204NoContent() throws Exception{
+    public void givenValidId_whenDeleteShow_shouldDeleteTheShowAndReturnStatus204NoContent() throws Exception {
         doNothing().when(showService).deleteShow(1);
 
         MockHttpServletResponse response = mockMvc.perform(
@@ -308,7 +315,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void givenInvalidId_whenDeleteShow_shouldThrowShowNotFoundException() throws Exception{
+    public void givenInvalidId_whenDeleteShow_shouldThrowShowNotFoundException() throws Exception {
         willThrow(ShowNotFoundException.class).given(showService).deleteShow(1);
 
         MockHttpServletResponse response = mockMvc.perform(
@@ -321,7 +328,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void givenStringPersonalScore_whenPostShow_shouldThrowHttpMessageNotReadableException(){
+    public void givenStringPersonalScore_whenPostShow_shouldThrowHttpMessageNotReadableException() {
         ShowFormTest form = ShowFormTest.builder()
                 .title("Game of Thrones")
                 .personalScore("personal score")
@@ -341,7 +348,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void givenPersonalScoreHigherThan10_whenPostShow_shouldThrowMethodArgumentNotValidException(){
+    public void givenPersonalScoreHigherThan10_whenPostShow_shouldThrowMethodArgumentNotValidException() {
         ShowForm form = ShowForm.builder()
                 .title("Game of Thrones")
                 .personalScore(11)
@@ -361,7 +368,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void givenPersonalScoreLowerThan0_whenPostShow_shouldThrowMethodArgumentNotValidException(){
+    public void givenPersonalScoreLowerThan0_whenPostShow_shouldThrowMethodArgumentNotValidException() {
         ShowForm form = ShowForm.builder()
                 .title("Game of Thrones")
                 .personalScore(-1)
