@@ -12,7 +12,15 @@ import lombok.NoArgsConstructor;
 public class ShowSimpleDto {
 
     private String title;
-    private int id;
     private double personalScore;
+    private String rated;
+    private String released;
+    private String genre;
+    private String director;
+    private String writer;
+    private String actors;
+    private String plot;
+    private String imdbRating;
+    private String type;
 
 }
