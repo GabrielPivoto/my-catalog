@@ -18,9 +18,11 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * Controller class. All endpoints are built here.
  *
  * @author Gabriel Pivoto
- * @since dec 2022
+ * @version JDK 1.7
+ * @since 1.0
  */
 @RestController
 @RequestMapping("/show")
@@ -32,22 +34,22 @@ public class ShowController {
     @Operation(summary = "Add a new show.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Show successfully added to database.",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ShowDto.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ShowDto.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid personal score.",
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Show not found or doesn't exist.",
-                    content = @Content) })
+                    content = @Content)})
     @PostMapping
-    public ResponseEntity<ShowDto> addNewShow(@RequestBody @Valid ShowForm showForm){
+    public ResponseEntity<ShowDto> addNewShow(@RequestBody @Valid ShowForm showForm) {
         return ResponseEntity.created(null).body(showService.addNewShow(showForm));
     }
 
     @Operation(summary = "Find all shows or find shows by type.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All shows",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ShowDto.class)) })})
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ShowDto.class))})})
     @GetMapping
     public ResponseEntity<List<ShowDto>> findShows(
             @RequestParam(required = false) Optional<String> type) {
@@ -57,10 +59,10 @@ public class ShowController {
     @Operation(summary = "Get a show by id.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the show",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Show.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Show.class))}),
             @ApiResponse(responseCode = "404", description = "Show not found",
-                    content = @Content) })
+                    content = @Content)})
     @GetMapping("/{id}")
     public ResponseEntity<ShowDto> findShow(@PathVariable int id) {
         return ResponseEntity.ok().body(showService.findShow(id));
@@ -69,14 +71,14 @@ public class ShowController {
     @Operation(summary = "Update show.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Show updated.",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Show.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Show.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid personal score.",
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Show not found.",
-                    content = @Content) })
+                    content = @Content)})
     @PatchMapping
-    public ResponseEntity<ShowDto> updateShow(@RequestBody ShowForm showForm){
+    public ResponseEntity<ShowDto> updateShow(@RequestBody ShowForm showForm) {
         return ResponseEntity.ok().body(showService.updateShow(showForm));
     }
 
@@ -85,9 +87,9 @@ public class ShowController {
             @ApiResponse(responseCode = "204", description = "Show deleted.",
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Show not found",
-                    content = @Content) })
+                    content = @Content)})
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteShow(@PathVariable int id){
+    public ResponseEntity<?> deleteShow(@PathVariable int id) {
         showService.deleteShow(id);
         return ResponseEntity.noContent().build();
     }
