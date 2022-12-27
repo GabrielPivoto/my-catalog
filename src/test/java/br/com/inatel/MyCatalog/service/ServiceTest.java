@@ -6,6 +6,7 @@ import br.com.inatel.MyCatalog.exception.ShowNotFoundException;
 import br.com.inatel.MyCatalog.model.dto.ShowDto;
 import br.com.inatel.MyCatalog.model.entity.TvShow;
 import br.com.inatel.MyCatalog.model.form.ShowForm;
+import br.com.inatel.MyCatalog.model.form.ShowFormTest;
 import br.com.inatel.MyCatalog.model.rest.Show;
 import br.com.inatel.MyCatalog.repository.ShowRepository;
 import org.junit.Before;
@@ -24,7 +25,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
@@ -51,6 +53,7 @@ public class ServiceTest {
     private ShowForm showForm2;
     private ShowForm showForm3;
     private ShowForm showForm4;
+    private ShowFormTest showFormTest;
     private ShowForm invalidShowForm;
     List<TvShow> tvShowList = new ArrayList<>();
     List<TvShow> moviesList = new ArrayList<>();
@@ -156,7 +159,7 @@ public class ServiceTest {
 
         showForm1 = ShowForm.builder()
                 .title(validTitle1)
-                .personalScore(9.7)
+                .personalScore(10)
                 .build();
 
         showForm2 = ShowForm.builder()
@@ -165,8 +168,8 @@ public class ServiceTest {
                 .build();
 
         showForm3 = ShowForm.builder()
-                .title(validTitle3)
-                .personalScore(8.5)
+                .title(validTitle1)
+                .personalScore(10)
                 .build();
 
         showForm4 = ShowForm.builder()
@@ -177,6 +180,11 @@ public class ServiceTest {
         invalidShowForm = ShowForm.builder()
                 .title(invalidTitle)
                 .personalScore(9.7)
+                .build();
+
+        showFormTest = ShowFormTest.builder()
+                .title(validTitle1)
+                .personalScore("a random score")
                 .build();
 
         tvShowList.add(validTvShow1);
@@ -209,7 +217,7 @@ public class ServiceTest {
         assertThat(throwable)
                 .isInstanceOf(ShowNotFoundException.class)
                 .hasMessageContaining("The show " + invalidShowForm.getTitle() + " could not be found." +
-                        " Check if the name was written correctly.");
+                        " Check if the name was correctly written.");
     }
 
     @Test
@@ -308,6 +316,32 @@ public class ServiceTest {
         assertThat(throwable)
                 .isInstanceOf(ShowNotFoundException.class)
                 .hasMessageContaining("The id 8 could not be found. Try another one.");
+    }
+
+    @Test
+    public void givenValidTitle_whenPatchShow_shouldUptadeTheShow(){
+        when(showRepository.findById(1)).thenReturn(Optional.of(validTvShow1));
+        when(showRepository.findByTitle(validTitle1)).thenReturn(Optional.of(validTvShow1));
+        when(showRepository.save(validTvShow1)).thenReturn(validTvShow1);
+
+        ShowDto showBefore = showService.findShow(1);
+        assertEquals(9.7,showBefore.getPersonalScore());
+
+        showService.updateShow(showForm1);
+        ShowDto showAfter = showService.findShow(1);
+        assertEquals(10,showAfter.getPersonalScore());
+    }
+
+    @Test
+    public void givenInvalidTitle_whenPatchShow_shouldThrowShowNotFoundException(){
+        when(showRepository.findByTitle(validTitle1)).thenReturn(Optional.empty());
+
+        Throwable throwable = catchThrowable(() -> showService.updateShow(showForm1));
+
+        assertThat(throwable)
+                .isInstanceOf(ShowNotFoundException.class)
+                .hasMessageContaining("The show " + showForm1.getTitle() + " could not be found." +
+                        " Check if the name was correctly written.");
     }
 
 }
