@@ -4,7 +4,6 @@ import br.com.inatel.MyCatalog.exception.IncompatibleTypeException;
 import br.com.inatel.MyCatalog.exception.ShowAlreadyRegisteredException;
 import br.com.inatel.MyCatalog.exception.ShowNotFoundException;
 import br.com.inatel.MyCatalog.model.dto.ErrorDto;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -43,12 +42,12 @@ public class Handler {
     }
 
     @ExceptionHandler(ShowAlreadyRegisteredException.class)
-    @ResponseStatus(value = HttpStatus.CONFLICT)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorDto generateException(ShowAlreadyRegisteredException e){
         return ErrorDto.builder()
                 .type("ShowAlreadyRegisteredException")
                 .title("Show already registered.")
-                .httpStatus(HttpStatus.CONFLICT)
+                .httpStatus(HttpStatus.BAD_REQUEST)
                 .detail(e.getMessage())
                 .instance(instance)
                 .build();

@@ -5,19 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class ShowForm {
+public class ShowFormTest {
 
-    @NotEmpty
     private String title;
-    @Min(0) @Max(10)
-    private double personalScore;
+    private String personalScore;
 
 }

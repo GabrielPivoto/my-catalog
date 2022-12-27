@@ -1,7 +1,6 @@
 package br.com.inatel.MyCatalog.mapper;
 
 import br.com.inatel.MyCatalog.model.dto.ShowDto;
-import br.com.inatel.MyCatalog.model.dto.ShowSimpleDto;
 import br.com.inatel.MyCatalog.model.entity.TvShow;
 
 public class Mapper {
@@ -20,14 +19,6 @@ public class Mapper {
                 .released(tvShow.getReleased())
                 .type(tvShow.getType())
                 .writer(tvShow.getWriter())
-                .build();
-    }
-
-    public static ShowSimpleDto convertEntityToSimpleDto(TvShow tvShow){
-        return ShowSimpleDto.builder()
-                .title(tvShow.getTitle())
-                .id(tvShow.getId())
-                .personalScore(tvShow.getPersonalScore())
                 .build();
     }
 

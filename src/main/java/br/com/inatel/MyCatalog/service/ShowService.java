@@ -5,6 +5,7 @@ import br.com.inatel.MyCatalog.exception.ShowAlreadyRegisteredException;
 import br.com.inatel.MyCatalog.exception.ShowNotFoundException;
 import br.com.inatel.MyCatalog.mapper.Mapper;
 import br.com.inatel.MyCatalog.model.dto.ShowDto;
+import br.com.inatel.MyCatalog.model.dto.ShowSimpleDto;
 import br.com.inatel.MyCatalog.model.entity.TvShow;
 import br.com.inatel.MyCatalog.model.form.ShowForm;
 import br.com.inatel.MyCatalog.model.rest.Show;
@@ -24,16 +25,15 @@ public class ShowService {
 
     public ShowDto addNewShow(ShowForm showForm){
         Show show = adapter.getShowByTitle(showForm.getTitle());
-        Optional<TvShow> optional = showRepository.findByTitle(showForm.getTitle());
+        Optional<TvShow> optional = showRepository.findByTitle(show.getTitle());
         if(show.getTitle() == null)
             throw new ShowNotFoundException("The show " + showForm.getTitle() + " could not be found." +
-                    " Check if the name was written correctly.");
+                    " Check if the name was correctly written.");
         else if(optional.isPresent())
             throw new ShowAlreadyRegisteredException("The show " + optional.get().getTitle() +
                     " is already registered. Feel free to add another one.");
         else{
-            return Mapper.convertEntityToDto(showRepository
-                    .save(TvShow.builder()
+            TvShow tvShow = TvShow.builder()
                     .personalScore(showForm.getPersonalScore())
                     .title(show.getTitle())
                     .rated(show.getRated())
@@ -44,7 +44,10 @@ public class ShowService {
                     .actors(show.getActors())
                     .plot(show.getPlot())
                     .imdbRating(show.getImdbRating())
-                    .type(show.getType()).build()));
+                    .type(show.getType())
+                    .build();
+            showRepository.save(tvShow);
+            return Mapper.convertEntityToDto(tvShow);
         }
     }
 
@@ -66,10 +69,20 @@ public class ShowService {
         return Mapper.convertEntityToDto(optional.get());
     }
 
+    public ShowDto updateShow(ShowForm showForm){
+        Optional<TvShow> optional = showRepository.findByTitle(showForm.getTitle());
+        if(optional.isEmpty())
+            throw new ShowNotFoundException("The show " + showForm.getTitle() + " could not be found. " +
+                    "Check if the name was correctly written.");
+        TvShow tvShow = optional.get();
+        tvShow.setPersonalScore(showForm.getPersonalScore());
+        return Mapper.convertEntityToDto(showRepository.save(tvShow));
+    }
+
     public void deleteShow(int id){
         Optional<TvShow> optional = showRepository.findById(id);
         if(optional.isPresent())
-            showRepository.delete(optional.get());
+            showRepository.deleteById(id);
         else
             throw new ShowNotFoundException("The id " + id + " could not be found." +
                     " Try another one.");
