@@ -10,6 +10,7 @@ import br.com.inatel.MyCatalog.model.form.ShowForm;
 import br.com.inatel.MyCatalog.model.rest.Show;
 import br.com.inatel.MyCatalog.repository.ShowRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.Optional;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ShowService {
 
     private ShowRepository showRepository;
@@ -32,13 +34,15 @@ public class ShowService {
     public ShowDto addNewShow(ShowForm showForm) {
         Show show = adapter.getShowByTitle(showForm.getTitle());
         Optional<TvShow> optional = showRepository.findByTitle(show.getTitle());
-        if (show.getTitle() == null)
+        if (show.getTitle() == null) {
+            log.error("The show " + showForm.getTitle() + " could not be found");
             throw new ShowNotFoundException("The show " + showForm.getTitle() + " could not be found." +
                     " Check if the name was correctly written.");
-        else if (optional.isPresent())
+        } else if (optional.isPresent()) {
+            log.error("The show " + optional.get().getTitle() + " is already registered");
             throw new ShowAlreadyRegisteredException("The show " + optional.get().getTitle() +
                     " is already registered. Feel free to add another one.");
-        else {
+        } else {
             TvShow tvShow = TvShow.builder()
                     .personalScore(showForm.getPersonalScore())
                     .title(show.getTitle())
@@ -53,6 +57,7 @@ public class ShowService {
                     .type(show.getType())
                     .build();
             showRepository.save(tvShow);
+            log.info("The show " + tvShow.getTitle() + " has been saved");
             return Mapper.convertEntityToDto(tvShow);
         }
     }
@@ -60,38 +65,48 @@ public class ShowService {
     public List<ShowDto> findShows(Optional<String> type) {
         List<TvShow> tvShows;
         if (type.isPresent()) {
+            log.info("Type " + type.get());
             tvShows = showRepository.findAllByType(type.get());
             return tvShows.stream().map(Mapper::convertEntityToDto).toList();
         }
+        log.info("All shows.");
         tvShows = showRepository.findAll();
         return tvShows.stream().map(Mapper::convertEntityToDto).toList();
     }
 
     public ShowDto findShow(int id) {
         Optional<TvShow> optional = showRepository.findById(id);
-        if (optional.isEmpty())
+        if (optional.isEmpty()) {
+            log.error("The id " + id + " does not exist");
             throw new ShowNotFoundException("The id " + id + " could not be found." +
                     " Try another one.");
+        }
         return Mapper.convertEntityToDto(optional.get());
     }
 
     public ShowDto updateShow(ShowForm showForm) {
         Optional<TvShow> optional = showRepository.findByTitle(showForm.getTitle());
-        if (optional.isEmpty())
+        if (optional.isEmpty()) {
+            log.error("The show " + showForm.getTitle() + " could not be found");
             throw new ShowNotFoundException("The show " + showForm.getTitle() + " could not be found. " +
                     "Check if the name was correctly written.");
+        }
         TvShow tvShow = optional.get();
         tvShow.setPersonalScore(showForm.getPersonalScore());
+        log.info("The show " + optional.get().getTitle() + " has been updated");
         return Mapper.convertEntityToDto(showRepository.save(tvShow));
     }
 
     public void deleteShow(int id) {
         Optional<TvShow> optional = showRepository.findById(id);
-        if (optional.isPresent())
+        if (optional.isPresent()) {
+            log.info("The show " + optional.get().getTitle() + " has been deleted");
             showRepository.deleteById(id);
-        else
+        } else {
+            log.error("The id " + id + " does not exist.");
             throw new ShowNotFoundException("The id " + id + " could not be found." +
                     " Try another one.");
+        }
     }
 
 }
