@@ -13,6 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Class that do a request filter and log in the console.
+ *
+ * @author Gabriel Pivoto
+ * @version JDK 1.7
+ * @since 1.0
+ */
 @Component
 @Slf4j
 public class TransactionFilter extends OncePerRequestFilter {
