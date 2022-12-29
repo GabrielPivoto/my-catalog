@@ -39,7 +39,7 @@ public class Handler {
         return ErrorDto.builder()
                 .type("ShowNotFoundException")
                 .title("Show not found or doesn't exist.")
-                .httpStatus(HttpStatus.NOT_FOUND)
+                .httpStatus(HttpStatus.NOT_FOUND.value())
                 .detail(e.getMessage())
                 .instance(instance)
                 .build();
@@ -51,7 +51,7 @@ public class Handler {
         return ErrorDto.builder()
                 .type("ShowAlreadyRegisteredException")
                 .title("Show already registered.")
-                .httpStatus(HttpStatus.BAD_REQUEST)
+                .httpStatus(HttpStatus.BAD_REQUEST.value())
                 .detail(e.getMessage())
                 .instance(instance)
                 .build();
@@ -65,7 +65,7 @@ public class Handler {
         return ErrorDto.builder()
                 .type("MethodArgumentNotValidException")
                 .title("Invalid personal score")
-                .httpStatus(HttpStatus.BAD_REQUEST)
+                .httpStatus(HttpStatus.BAD_REQUEST.value())
                 .detail("Personal score " + message)
                 .instance(instance)
                 .build();
@@ -77,7 +77,7 @@ public class Handler {
         return ErrorDto.builder()
                 .type("HttpMessageNotReadableException")
                 .title("Invalid personal score")
-                .httpStatus(HttpStatus.BAD_REQUEST)
+                .httpStatus(HttpStatus.BAD_REQUEST.value())
                 .detail("Personal score must be a double.")
                 .instance(instance)
                 .build();

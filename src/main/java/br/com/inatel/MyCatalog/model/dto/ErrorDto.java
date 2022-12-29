@@ -17,7 +17,7 @@ public class ErrorDto {
 
     private String type;
     private String title;
-    private HttpStatus httpStatus;
+    private int httpStatus;
     private String detail;
     private String instance;
 
