@@ -1,39 +1,28 @@
 package br.com.inatel.MyCatalog.definitions;
 
-import br.com.inatel.MyCatalog.controller.ShowController;
 import br.com.inatel.MyCatalog.exception.ShowAlreadyRegisteredException;
 import br.com.inatel.MyCatalog.exception.ShowNotFoundException;
 import br.com.inatel.MyCatalog.model.dto.ShowDto;
+import br.com.inatel.MyCatalog.model.entity.TvShow;
 import br.com.inatel.MyCatalog.model.form.ShowForm;
 import br.com.inatel.MyCatalog.model.form.ShowFormTest;
 import br.com.inatel.MyCatalog.model.rest.Show;
 import br.com.inatel.MyCatalog.service.ShowService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -59,8 +48,8 @@ public class SpringBootCucumberTestDefinitions {
     private List<ShowDto> showDtos;
 
     @Then("should throw {string}")
-    public void should_throw(String string) {
-        assertTrue(result.contains(string));
+    public void should_throw(String exception) {
+        verifyString(exception);
     }
 
     @Given("{int} is provided as personal score")
@@ -98,7 +87,7 @@ public class SpringBootCucumberTestDefinitions {
 
     @And("the status should be {string}")
     public void the_status_should_be(String status) {
-        assertTrue(result.contains(status));
+        verifyString(status);
     }
 
     @Given("{string} is provided as title")
@@ -179,4 +168,128 @@ public class SpringBootCucumberTestDefinitions {
         assertTrue(result.contains(validTitle4));
     }
 
+    @And("the detail should be {string}")
+    public void the_detail_should_be(String detail) {
+        verifyString(detail);
+    }
+
+    public void verifyString(String string){
+        assertTrue(result.contains(string));
+    }
+
+    @And("the title should be {string}")
+    public void theTitleShouldBe(String title) {
+        verifyString(title);
+    }
+
+    @Given("{string} is not yet registered")
+    public void is_not_yet_registered(String title) {
+        ShowDto dto = ShowDto.builder()
+                .title("Pacific Rim")
+                .rated("PG-13")
+                .personalScore(10)
+                .director("Guillermo del Toro")
+                .actors("Guillermo del Toro")
+                .type("movie")
+                .build();
+        when(showService.addNewShow(form)).thenReturn(dto);
+    }
+
+    @And("the director should be {string}")
+    public void the_director_should_be(String director) {
+        verifyString(director);
+    }
+
+    @And("the type should be {string}")
+    public void the_type_should_be(String type) {
+        verifyString(type);
+    }
+
+    @Given("type {string} is provided")
+    public void typeIsProvided(String type) {
+        validTitle1 = "Game of Thrones";
+        validTitle2 = "Breaking Bad";
+        validTitle3 = "Avengers";
+        validTitle4 = "Forrest Gump";
+
+        showDto1 = ShowDto.builder()
+                .id(1)
+                .title(validTitle1)
+                .type("series")
+                .personalScore(9.7)
+                .build();
+
+
+        showDto2 = ShowDto.builder()
+                .id(2)
+                .title(validTitle2)
+                .type("series")
+                .personalScore(8)
+                .build();
+
+        showDto3 = ShowDto.builder()
+                .id(3)
+                .title(validTitle3)
+                .type("movie")
+                .personalScore(7)
+                .build();
+
+        showDto4 = ShowDto.builder()
+                .id(4)
+                .title(validTitle4)
+                .type("movie")
+                .personalScore(10)
+                .build();
+        switch (type){
+            case "movie" -> when(showService.findShows(Optional.of("movie"))).thenReturn(List.of(showDto3, showDto4));
+            case "series" -> when(showService.findShows(Optional.of("series"))).thenReturn(List.of(showDto1, showDto2));
+        }
+    }
+
+    @When("get {string}")
+    public void get(String type) {
+        result = webTestClient.get().uri("/show?type=" + type)
+                .exchange()
+                .expectBody(ShowDto[].class)
+                .returnResult()
+                .toString();
+    }
+
+    @Then("should return list of {string}")
+    public void shouldReturnListOf(String type) {
+        verifyString(type);
+        if(type.equals("movie"))
+            assertFalse(result.contains("series"));
+        else
+            assertFalse(result.contains("movie"));
+    }
+
+    @When("get show by id {int}")
+    public void getShowById(int id) {
+        result = webTestClient.get().uri("/show/" + id)
+                .exchange()
+                .expectBody(ShowDto.class)
+                .returnResult()
+                .toString();
+    }
+
+    @Given("id {int} is {string}")
+    public void idIs(int id, String valid) {
+        validTitle1 = "Game of Thrones";
+
+        showDto1 = ShowDto.builder()
+                .id(1)
+                .title(validTitle1)
+                .actors("Peter Dinklage")
+                .type("series")
+                .director("David Benioff, D.B. Weiss")
+                .personalScore(9.7)
+                .build();
+
+        switch (valid){
+            case "valid" -> when(showService.findShow(id)).thenReturn(showDto1);
+            case "invalid" -> when(showService.findShow(id)).thenThrow(ShowNotFoundException.class);
+        }
+
+    }
 }
