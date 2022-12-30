@@ -3,6 +3,7 @@ package br.com.inatel.MyCatalog.handler;
 import br.com.inatel.MyCatalog.exception.ShowAlreadyRegisteredException;
 import br.com.inatel.MyCatalog.exception.ShowNotFoundException;
 import br.com.inatel.MyCatalog.model.dto.ErrorDto;
+import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -80,6 +81,18 @@ public class Handler {
                 .httpStatus(HttpStatus.BAD_REQUEST.value())
                 .detail("Personal score must be a double.")
                 .instance(instance)
+                .build();
+    }
+
+    @ExceptionHandler(JDBCConnectionException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorDto generateException(JDBCConnectionException e) {
+        return ErrorDto.builder()
+                .type("JDBCConnectionException")
+                .title("Database is down")
+                .httpStatus(HttpStatus.BAD_REQUEST.value())
+                .detail("My Catalog could not connect to database. Check if it is up")
+                .instance("MySql")
                 .build();
     }
 
