@@ -19,5 +19,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: Start containers
+      run: docker compose up 
     - name: Test with Maven
       run: mvn clean test
