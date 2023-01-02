@@ -1,5 +1,7 @@
 # My Catalog
 
+[![My-Catalog CI](https://github.com/GabrielPivoto/my-catalog/actions/workflows/build.yml/badge.svg)](https://github.com/GabrielPivoto/my-catalog/actions/workflows/build.yml)
+
 [![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/projects/spring-boot)
 [![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)](https://www.jetbrains.com/idea/)
 [![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)](https://www.oracle.com/br/java/technologies/downloads/)
