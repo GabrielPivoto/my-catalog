@@ -12,6 +12,10 @@ An application to register movies and tv shows watched. 🎬🍿
 	Author ✏️: <a href="https://github.com/GabrielPivoto">Gabriel Pivoto</a>
 </h4>
 
+#### If you want, you can download the presentation:
+
+[![Dowload](https://custom-icon-badges.demolab.com/badge/-Presentation-F25237?style=for-the-badge&logo=download&logoColor=white)](https://github.com/GabrielPivoto/my-catalog/raw/master/presentation/My%20Catalog.pdf)
+
 This application consumes the [OMDB API](https://www.omdbapi.com/).
 
 ### What is needed 🧾
