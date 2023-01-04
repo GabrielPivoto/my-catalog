@@ -223,8 +223,8 @@ public class ServiceTest {
 
         assertThat(throwable)
                 .isInstanceOf(ShowNotFoundException.class)
-                .hasMessageContaining("The show " + invalidShowForm.getTitle() + " could not be found." +
-                        " Check if the name was correctly written.");
+                .hasMessageContaining("The title " + invalidShowForm.getTitle() + " could not be found. " +
+                        "Check if it is valid");
     }
 
     @Test
@@ -236,8 +236,8 @@ public class ServiceTest {
 
         assertThat(throwable)
                 .isInstanceOf(ShowAlreadyRegisteredException.class)
-                .hasMessageContaining("The show " + showForm1.getTitle() + " is already registered." +
-                        " Feel free to add another one.");
+                .hasMessageContaining("The title " + showForm1.getTitle() + " is already registered." +
+                        " Try adding another one");
     }
 
     @Test
@@ -302,7 +302,7 @@ public class ServiceTest {
 
         assertThat(throwable)
                 .isInstanceOf(ShowNotFoundException.class)
-                .hasMessageContaining("The id 8 could not be found. Try another one.");
+                .hasMessageContaining("The id 8 could not be found. Check if it is valid");
     }
 
     @Test
@@ -322,7 +322,7 @@ public class ServiceTest {
 
         assertThat(throwable)
                 .isInstanceOf(ShowNotFoundException.class)
-                .hasMessageContaining("The id 8 could not be found. Try another one.");
+                .hasMessageContaining("The id 8 could not be found. Check if it is valid");
     }
 
     @Test
@@ -347,8 +347,8 @@ public class ServiceTest {
 
         assertThat(throwable)
                 .isInstanceOf(ShowNotFoundException.class)
-                .hasMessageContaining("The show " + showForm1.getTitle() + " could not be found." +
-                        " Check if the name was correctly written.");
+                .hasMessageContaining("The title " + showForm1.getTitle() + " could not be found." +
+                        " Check if it is valid");
     }
 
 }
