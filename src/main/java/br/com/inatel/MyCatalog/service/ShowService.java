@@ -9,6 +9,10 @@ import br.com.inatel.MyCatalog.model.entity.TvShow;
 import br.com.inatel.MyCatalog.model.form.ShowForm;
 import br.com.inatel.MyCatalog.model.rest.Show;
 import br.com.inatel.MyCatalog.repository.ShowRepository;
+import br.com.inatel.MyCatalog.message.AlreadyRegisteredMessage;
+import br.com.inatel.MyCatalog.message.DeletedMessage;
+import br.com.inatel.MyCatalog.message.NotFoundMessage;
+import br.com.inatel.MyCatalog.message.SavedMesssage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,13 +39,12 @@ public class ShowService {
         Show show = adapter.getShowByTitle(showForm.getTitle());
         Optional<TvShow> optional = showRepository.findByTitle(show.getTitle());
         if (show.getTitle() == null) {
-            log.error("The show " + showForm.getTitle() + " could not be found");
-            throw new ShowNotFoundException("The show " + showForm.getTitle() + " could not be found." +
-                    " Check if the name was correctly written.");
+            log.error(new NotFoundMessage().showMessage(showForm.getTitle()));
+            throw new ShowNotFoundException(new NotFoundMessage().showMessage(showForm.getTitle()));
         } else if (optional.isPresent()) {
-            log.error("The show " + optional.get().getTitle() + " is already registered");
-            throw new ShowAlreadyRegisteredException("The show " + optional.get().getTitle() +
-                    " is already registered. Feel free to add another one.");
+            log.error(new AlreadyRegisteredMessage().showMessage(optional.get().getTitle()));
+            throw new ShowAlreadyRegisteredException(new AlreadyRegisteredMessage()
+                    .showMessage(optional.get().getTitle()));
         } else {
             TvShow tvShow = TvShow.builder()
                     .personalScore(showForm.getPersonalScore())
@@ -57,7 +60,7 @@ public class ShowService {
                     .type(show.getType())
                     .build();
             showRepository.save(tvShow);
-            log.info("The show " + tvShow.getTitle() + " has been saved");
+            log.info(new SavedMesssage().showMessage(tvShow.getTitle()));
             return Mapper.convertEntityToDto(tvShow);
         }
     }
@@ -77,9 +80,8 @@ public class ShowService {
     public ShowDto findShow(int id) {
         Optional<TvShow> optional = showRepository.findById(id);
         if (optional.isEmpty()) {
-            log.error("The id " + id + " does not exist");
-            throw new ShowNotFoundException("The id " + id + " could not be found." +
-                    " Try another one.");
+            log.error(new NotFoundMessage().showMessage(String.valueOf(id)));
+            throw new ShowNotFoundException(new NotFoundMessage().showMessage(String.valueOf(id)));
         }
         return Mapper.convertEntityToDto(optional.get());
     }
@@ -87,9 +89,8 @@ public class ShowService {
     public ShowDto updateShow(ShowForm showForm) {
         Optional<TvShow> optional = showRepository.findByTitle(showForm.getTitle());
         if (optional.isEmpty()) {
-            log.error("The show " + showForm.getTitle() + " could not be found");
-            throw new ShowNotFoundException("The show " + showForm.getTitle() + " could not be found. " +
-                    "Check if the name was correctly written.");
+            log.error(new NotFoundMessage().showMessage(showForm.getTitle()));
+            throw new ShowNotFoundException(new NotFoundMessage().showMessage(showForm.getTitle()));
         }
         TvShow tvShow = optional.get();
         tvShow.setPersonalScore(showForm.getPersonalScore());
@@ -100,12 +101,11 @@ public class ShowService {
     public void deleteShow(int id) {
         Optional<TvShow> optional = showRepository.findById(id);
         if (optional.isPresent()) {
-            log.info("The show " + optional.get().getTitle() + " has been deleted");
+            log.info(new DeletedMessage().showMessage(optional.get().getTitle()));
             showRepository.deleteById(id);
         } else {
-            log.error("The id " + id + " does not exist.");
-            throw new ShowNotFoundException("The id " + id + " could not be found." +
-                    " Try another one.");
+            log.error(new NotFoundMessage().showMessage(String.valueOf(id)));
+            throw new ShowNotFoundException(new NotFoundMessage().showMessage(String.valueOf(id)));
         }
     }
 
