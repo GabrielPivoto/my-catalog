@@ -3,7 +3,6 @@ package br.com.inatel.MyCatalog.definitions;
 import br.com.inatel.MyCatalog.exception.ShowAlreadyRegisteredException;
 import br.com.inatel.MyCatalog.exception.ShowNotFoundException;
 import br.com.inatel.MyCatalog.model.dto.ShowDto;
-import br.com.inatel.MyCatalog.model.entity.TvShow;
 import br.com.inatel.MyCatalog.model.form.ShowForm;
 import br.com.inatel.MyCatalog.model.form.ShowFormTest;
 import br.com.inatel.MyCatalog.model.rest.Show;
@@ -26,6 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
+/**
+ * Test definitions of the feature files
+ *
+ * @author Gabriel Pivoto
+ * @version JDK 1.7
+ * @since 1.0
+ */
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SpringBootCucumberTestDefinitions {
@@ -173,7 +179,7 @@ public class SpringBootCucumberTestDefinitions {
         verifyString(detail);
     }
 
-    public void verifyString(String string){
+    public void verifyString(String string) {
         assertTrue(result.contains(string));
     }
 
@@ -240,7 +246,7 @@ public class SpringBootCucumberTestDefinitions {
                 .type("movie")
                 .personalScore(10)
                 .build();
-        switch (type){
+        switch (type) {
             case "movie" -> when(showService.findShows(Optional.of("movie"))).thenReturn(List.of(showDto3, showDto4));
             case "series" -> when(showService.findShows(Optional.of("series"))).thenReturn(List.of(showDto1, showDto2));
         }
@@ -258,7 +264,7 @@ public class SpringBootCucumberTestDefinitions {
     @Then("should return list of {string}")
     public void shouldReturnListOf(String type) {
         verifyString(type);
-        if(type.equals("movie"))
+        if (type.equals("movie"))
             assertFalse(result.contains("series"));
         else
             assertFalse(result.contains("movie"));
@@ -286,7 +292,7 @@ public class SpringBootCucumberTestDefinitions {
                 .personalScore(9.7)
                 .build();
 
-        switch (valid){
+        switch (valid) {
             case "valid" -> when(showService.findShow(id)).thenReturn(showDto1);
             case "invalid" -> when(showService.findShow(id)).thenThrow(ShowNotFoundException.class);
         }
