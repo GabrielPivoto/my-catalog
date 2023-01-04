@@ -1,6 +1,13 @@
 package br.com.inatel.MyCatalog.message;
 
-public class SavedMesssage extends Message{
+/**
+ * Message presented when a new show is saved
+ *
+ * @author Gabriel Pivoto
+ * @version JDK 1.7
+ * @since 1.0
+ */
+public class SavedMesssage extends Message {
 
     @Override
     public String showMessage(String titleId) {
