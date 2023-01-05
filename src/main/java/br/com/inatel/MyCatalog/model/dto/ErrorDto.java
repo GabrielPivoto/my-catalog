@@ -2,7 +2,6 @@ package br.com.inatel.MyCatalog.model.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
 
 /**
  * Dto shown when an exception is handled.
