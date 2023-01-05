@@ -16,7 +16,7 @@ An application to register movies and tv shows watched. 🎬🍿
 
 [![Dowload](https://custom-icon-badges.demolab.com/badge/-Presentation-F25237?style=for-the-badge&logo=download&logoColor=white)](https://github.com/GabrielPivoto/my-catalog/raw/master/presentation/My%20Catalog.pdf)
 [![Dowload](https://custom-icon-badges.demolab.com/badge/-Model-F25237?style=for-the-badge&logo=download&logoColor=white)](https://github.com/GabrielPivoto/my-catalog/raw/master/modeling/model.png)
-[![Dowload](https://custom-icon-badges.demolab.com/badge/-Docs-F25237?style=for-the-badge&logo=download&logoColor=white)](https://github.com/GabrielPivoto/my-catalog/raw/master/docs/api-documentation.pdf)
+[![Dowload](https://custom-icon-badges.demolab.com/badge/-Docs-F25237?style=for-the-badge&logo=download&logoColor=white)](https://github.com/GabrielPivoto/my-catalog/raw/master/docs/docs.pdf)
 
 This application consumes the [OMDB API](https://www.omdbapi.com/).
 
