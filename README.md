@@ -1,5 +1,7 @@
 # My Catalog
 
+<img align='right' src="https://media2.giphy.com/media/qmRqZcy6X1syIxSMSI/giphy.gif?cid=790b7611be466559123a24ece9c9841275a28b33902c5d3a&rid=giphy.gif&ct=g" width="350">
+
 [![My-Catalog CI](https://github.com/GabrielPivoto/my-catalog/actions/workflows/build.yml/badge.svg)](https://github.com/GabrielPivoto/my-catalog/actions/workflows/build.yml)
 
 [![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/projects/spring-boot)
