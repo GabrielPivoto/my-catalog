@@ -46,9 +46,6 @@ public class ServiceTest {
     @InjectMocks
     private ShowService showService = new ShowService(showRepository, adapter);
     private TvShow validTvShow1;
-    private TvShow validTvShow2;
-    private TvShow validTvShow3;
-    private TvShow validTvShow4;
     private Show validShow1;
     private Show invalidShow1;
     private String validTitle1;
@@ -57,10 +54,6 @@ public class ServiceTest {
     private String validTitle4;
     private String invalidTitle;
     private ShowForm showForm1;
-    private ShowForm showForm2;
-    private ShowForm showForm3;
-    private ShowForm showForm4;
-    private ShowFormTest showFormTest;
     private ShowForm invalidShowForm;
     List<TvShow> tvShowList = new ArrayList<>();
     List<TvShow> moviesList = new ArrayList<>();
@@ -119,7 +112,7 @@ public class ServiceTest {
                 .genre("genre")
                 .build();
 
-        validTvShow2 = TvShow.builder()
+        TvShow validTvShow2 = TvShow.builder()
                 .id(2)
                 .title("Breaking Bad")
                 .rated("random")
@@ -134,7 +127,7 @@ public class ServiceTest {
                 .released("date")
                 .build();
 
-        validTvShow3 = TvShow.builder()
+        TvShow validTvShow3 = TvShow.builder()
                 .id(3)
                 .title("Avengers")
                 .rated("random")
@@ -149,7 +142,7 @@ public class ServiceTest {
                 .released("date")
                 .build();
 
-        validTvShow4 = TvShow.builder()
+        TvShow validTvShow4 = TvShow.builder()
                 .id(4)
                 .title("Forrest Gump")
                 .rated("random")
@@ -169,29 +162,9 @@ public class ServiceTest {
                 .personalScore(10)
                 .build();
 
-        showForm2 = ShowForm.builder()
-                .title(validTitle2)
-                .personalScore(8)
-                .build();
-
-        showForm3 = ShowForm.builder()
-                .title(validTitle1)
-                .personalScore(10)
-                .build();
-
-        showForm4 = ShowForm.builder()
-                .title(validTitle4)
-                .personalScore(10)
-                .build();
-
         invalidShowForm = ShowForm.builder()
                 .title(invalidTitle)
                 .personalScore(9.7)
-                .build();
-
-        showFormTest = ShowFormTest.builder()
-                .title(validTitle1)
-                .personalScore("a random score")
                 .build();
 
         tvShowList.add(validTvShow1);

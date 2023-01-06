@@ -61,28 +61,15 @@ public class ControllerTest {
     private ShowDto showDto4;
     private List<ShowDto> showDtos;
     private ShowForm showForm1;
-    private ShowForm showForm2;
-    private ShowForm showForm3;
-    private ShowForm showForm4;
-    private ShowFormTest showFormTest1;
     private ShowForm invalidShowForm1;
-    private ShowForm invalidShowForm2;
-    private String validTitle1;
-    private String validTitle2;
-    private String validTitle3;
-    private String validTitle4;
-    private String invalidTitle;
 
     @BeforeEach
     public void init() {
 
         JacksonTester.initFields(this, new ObjectMapper());
 
-        validTitle1 = "Game of Thrones";
-        validTitle2 = "Breaking Bad";
-        validTitle3 = "Avengers";
-        validTitle4 = "Forrest Gump";
-        invalidTitle = "House of the Horse";
+        String validTitle1 = "Game of Thrones";
+        String invalidTitle = "House of the Horse";
 
         showDto1 = ShowDto.builder()
                 .id(1)
@@ -124,34 +111,9 @@ public class ControllerTest {
                 .personalScore(10)
                 .build();
 
-        showForm2 = ShowForm.builder()
-                .title(validTitle2)
-                .personalScore(8)
-                .build();
-
-        showForm3 = ShowForm.builder()
-                .title(validTitle3)
-                .personalScore(8.5)
-                .build();
-
-        showForm4 = ShowForm.builder()
-                .title(validTitle4)
-                .personalScore(10)
-                .build();
-
         invalidShowForm1 = ShowForm.builder()
                 .title(invalidTitle)
                 .personalScore(9.7)
-                .build();
-
-        showFormTest1 = ShowFormTest.builder()
-                .title(validTitle1)
-                .personalScore("a random score")
-                .build();
-
-        invalidShowForm2 = ShowForm.builder()
-                .title(invalidTitle)
-                .personalScore(12)
                 .build();
 
         showDtos = new ArrayList<>();

@@ -51,7 +51,6 @@ public class SpringBootCucumberTestDefinitions {
     private String validTitle2;
     private String validTitle3;
     private String validTitle4;
-    private List<ShowDto> showDtos;
 
     @Then("should throw {string}")
     public void should_throw(String exception) {
