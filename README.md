@@ -111,5 +111,5 @@ mvn test
 ```
 
 There's also two feature files regarding the methods GET and POST.
-To run these tests you just need the CucumberRunnerTests class. A
-link to the tests report will be automatically provided.
+To run these tests you just need to run the CucumberRunnerTests class. The
+test report can be accessed through this link: http://bit.ly/3IAalzy
