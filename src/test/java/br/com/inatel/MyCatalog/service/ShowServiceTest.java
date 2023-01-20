@@ -6,7 +6,6 @@ import br.com.inatel.MyCatalog.exception.ShowNotFoundException;
 import br.com.inatel.MyCatalog.model.dto.ShowDto;
 import br.com.inatel.MyCatalog.model.entity.TvShow;
 import br.com.inatel.MyCatalog.model.form.ShowForm;
-import br.com.inatel.MyCatalog.model.form.ShowFormTest;
 import br.com.inatel.MyCatalog.model.rest.Show;
 import br.com.inatel.MyCatalog.repository.ShowRepository;
 import org.junit.Before;
@@ -37,7 +36,7 @@ import static org.mockito.Mockito.when;
  */
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
-public class ServiceTest {
+public class ShowServiceTest {
 
     @Mock
     private ShowRepository showRepository;

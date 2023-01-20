@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * @since 1.0
  */
 @WebMvcTest(ShowController.class)
-public class ControllerTest {
+public class ShowControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
