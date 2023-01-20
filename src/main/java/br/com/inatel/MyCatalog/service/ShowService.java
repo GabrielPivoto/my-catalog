@@ -1,9 +1,9 @@
 package br.com.inatel.MyCatalog.service;
 
-import br.com.inatel.MyCatalog.adapter.Adapter;
+import br.com.inatel.MyCatalog.adapter.OmdbAdapter;
 import br.com.inatel.MyCatalog.exception.ShowAlreadyRegisteredException;
 import br.com.inatel.MyCatalog.exception.ShowNotFoundException;
-import br.com.inatel.MyCatalog.mapper.Mapper;
+import br.com.inatel.MyCatalog.mapper.DtoMapper;
 import br.com.inatel.MyCatalog.model.dto.ShowDto;
 import br.com.inatel.MyCatalog.model.entity.TvShow;
 import br.com.inatel.MyCatalog.model.form.ShowForm;
@@ -33,7 +33,7 @@ import java.util.Optional;
 public class ShowService {
 
     private ShowRepository showRepository;
-    private Adapter adapter;
+    private OmdbAdapter adapter;
 
     public ShowDto addNewShow(ShowForm showForm) {
         Show show = adapter.getShowByTitle(showForm.getTitle());
@@ -61,7 +61,7 @@ public class ShowService {
                     .build();
             showRepository.save(tvShow);
             log.info(new SavedMesssage().showMessage(tvShow.getTitle()));
-            return Mapper.convertEntityToDto(tvShow);
+            return DtoMapper.convertEntityToDto(tvShow);
         }
     }
 
@@ -70,11 +70,11 @@ public class ShowService {
         if (type.isPresent()) {
             log.info("Type " + type.get());
             tvShows = showRepository.findAllByType(type.get());
-            return tvShows.stream().map(Mapper::convertEntityToDto).toList();
+            return tvShows.stream().map(DtoMapper::convertEntityToDto).toList();
         }
         log.info("All shows.");
         tvShows = showRepository.findAll();
-        return tvShows.stream().map(Mapper::convertEntityToDto).toList();
+        return tvShows.stream().map(DtoMapper::convertEntityToDto).toList();
     }
 
     public ShowDto findShow(int id) {
@@ -83,7 +83,7 @@ public class ShowService {
             log.error(new NotFoundMessage().showMessage(String.valueOf(id)));
             throw new ShowNotFoundException(new NotFoundMessage().showMessage(String.valueOf(id)));
         }
-        return Mapper.convertEntityToDto(optional.get());
+        return DtoMapper.convertEntityToDto(optional.get());
     }
 
     public ShowDto updateShow(ShowForm showForm) {
@@ -95,7 +95,7 @@ public class ShowService {
         TvShow tvShow = optional.get();
         tvShow.setPersonalScore(showForm.getPersonalScore());
         log.info("The show " + optional.get().getTitle() + " has been updated");
-        return Mapper.convertEntityToDto(showRepository.save(tvShow));
+        return DtoMapper.convertEntityToDto(showRepository.save(tvShow));
     }
 
     public void deleteShow(int id) {

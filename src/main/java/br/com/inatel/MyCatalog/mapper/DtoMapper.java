@@ -10,7 +10,7 @@ import br.com.inatel.MyCatalog.model.entity.TvShow;
  * @version JDK 1.7
  * @since 1.0
  */
-public class Mapper {
+public class DtoMapper {
 
     public static ShowDto convertEntityToDto(TvShow tvShow) {
         return ShowDto.builder()

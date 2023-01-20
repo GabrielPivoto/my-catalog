@@ -7,7 +7,7 @@ package br.com.inatel.MyCatalog.message;
  * @version JDK 1.7
  * @since 1.0
  */
-public class DeletedMessage extends Message {
+public class DeletedMessage extends MotherMessage {
 
     @Override
     public String showMessage(String titleId) {

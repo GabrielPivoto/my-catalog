@@ -7,7 +7,7 @@ package br.com.inatel.MyCatalog.message;
  * @version JDK 1.7
  * @since 1.0
  */
-public class Message {
+public class MotherMessage {
 
     public String showMessage(String titleId){
         try {return "The id " + Integer.parseInt(titleId);}catch (Exception ignored){}

@@ -1,6 +1,6 @@
 package br.com.inatel.MyCatalog.service;
 
-import br.com.inatel.MyCatalog.adapter.Adapter;
+import br.com.inatel.MyCatalog.adapter.OmdbAdapter;
 import br.com.inatel.MyCatalog.exception.ShowAlreadyRegisteredException;
 import br.com.inatel.MyCatalog.exception.ShowNotFoundException;
 import br.com.inatel.MyCatalog.model.dto.ShowDto;
@@ -41,7 +41,7 @@ public class ShowServiceTest {
     @Mock
     private ShowRepository showRepository;
     @Mock
-    private Adapter adapter;
+    private OmdbAdapter adapter;
     @InjectMocks
     private ShowService showService = new ShowService(showRepository, adapter);
     private TvShow validTvShow1;

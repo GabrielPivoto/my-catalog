@@ -14,7 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient;
  * @since 1.0
  */
 @Service
-public class Adapter {
+public class OmdbAdapter {
 
     @Value("${omdb.api.url}")
     private String url;
